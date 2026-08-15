@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://paolo-de-marinis.github.io/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://paolo-de-marinis.github.io/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://paolo-de-marinis.github.io/en/" />
+    <lastmod>2026-08-15</lastmod>
+  </url>
+  <url>
+    <loc>https://paolo-de-marinis.github.io/en/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://paolo-de-marinis.github.io/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://paolo-de-marinis.github.io/en/" />
+    <lastmod>2026-08-15</lastmod>
+  </url>
+  <url>
+    <loc>https://paolo-de-marinis.github.io/informazioni/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://paolo-de-marinis.github.io/informazioni/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://paolo-de-marinis.github.io/en/information/" />
+    <lastmod>2026-08-15</lastmod>
+  </url>
+  <url>
+    <loc>https://paolo-de-marinis.github.io/en/information/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://paolo-de-marinis.github.io/informazioni/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://paolo-de-marinis.github.io/en/information/" />
+    <lastmod>2026-08-15</lastmod>
+  </url>
+</urlset>

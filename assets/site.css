@@ -2,7 +2,38 @@
 
 :root{--font-geist-sans:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--font-geist-mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace}
 .theme-toggle{display:none!important}.js .theme-toggle{display:grid!important}
-.timeline-scroll-step:target{border-color:#0b19286b;box-shadow:10px 12px #0b192814}.timeline-scroll-step:target:before{background:var(--accent)}
-:root[data-theme=dark] .timeline-scroll-step:target{border-color:#edf2f56b;box-shadow:10px 12px #0000003d}
-.case-hilbert :is(.project-type,.case-number,.case-body,.case-footer p,.pipeline span,.pipeline small),.rives-grid section:last-child :is(.project-type,p:not(.result)),.phase-highlight :is(span,small){color:var(--ink)}
+:root:not(.js) .timeline-scroll-step:target{border-color:#0b19286b;box-shadow:10px 12px #0b192814}:root:not(.js) .timeline-scroll-step:target:before{background:var(--accent)}
+:root[data-theme=dark]:not(.js) .timeline-scroll-step:target{border-color:#edf2f56b;box-shadow:10px 12px #0000003d}
+.timeline-rail a[aria-current=step] .timeline-rail-dot{background:var(--accent);color:var(--accent-ink);box-shadow:0 0 0 5px var(--paper);transform:scale(1.08)}@media (max-width:780px){.timeline-rail a[aria-current=step] .timeline-rail-dot{box-shadow:0 0 0 4px var(--surface)}}
+.case-hilbert :is(.project-type,.case-body,.case-footer p,.pipeline span,.pipeline small),.rives-grid section:last-child :is(.project-type,p:not(.result)),.phase-highlight :is(span,small){color:var(--ink)}
+:root .case-hilbert .case-number{color:#9f3e1d}
+:root[data-theme=dark] .case-hilbert .case-number{color:#ffb06a}
+:root .case-omen .case-number{color:#ff7b51}
 .not-found{min-height:100svh;display:grid;place-content:center;gap:18px;width:min(calc(100% - 40px),720px);margin:auto}.not-found h1{font-size:clamp(2.4rem,8vw,5rem);font-weight:800;line-height:1}.not-found p{max-width:62ch}.not-found-links{display:flex;flex-wrap:wrap;gap:12px}
+
+.credential-period{color:var(--muted);font-family:var(--font-geist-mono),monospace;font-size:.72rem;font-weight:720}
+footer:not(.legal-footer){align-items:stretch;flex-direction:column;gap:18px}
+footer:not(.legal-footer) .footer-social{grid-template-columns:repeat(4,minmax(0,1fr));order:1;width:100%;display:grid}
+footer:not(.legal-footer) .footer-social a{width:100%}
+footer:not(.legal-footer) .footer-meta{order:2;gap:12px}
+footer:not(.legal-footer) .footer-meta .footer-legal{order:1}
+footer:not(.legal-footer) .footer-meta>p{order:2}
+footer:not(.legal-footer)>p{order:3}
+.lighthouse-audit{border:1px solid var(--line);background:var(--surface);margin-top:34px;padding:clamp(24px,3.5vw,38px)}
+.audit-intro{max-width:760px}
+.audit-intro h3{letter-spacing:-.03em;margin:10px 0 12px;font-size:clamp(1.55rem,3vw,2.2rem);font-weight:650;line-height:1.1}
+.audit-intro>p:last-child{color:var(--muted);margin:0}
+.audit-profiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:28px;display:grid}
+.audit-profiles>section{border:1px solid var(--line);background:var(--paper);padding:18px}
+.audit-profiles h4{font-family:var(--font-geist-mono),monospace;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;font-size:.75rem;font-weight:800}
+.audit-scores{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0;display:grid}
+.audit-scores>div{border-left:3px solid var(--accent);background:var(--surface);padding:10px 11px}
+.audit-scores dt{color:var(--muted);font-family:var(--font-geist-mono),monospace;letter-spacing:.03em;text-transform:uppercase;font-size:.56rem;line-height:1.25}
+.audit-scores dd{color:var(--ink);letter-spacing:-.05em;margin:2px 0 0;font-size:1.35rem;font-weight:800;line-height:1}
+.audit-status,.audit-meta{color:var(--muted);margin:18px 0 0;font-size:.78rem}
+.audit-meta{margin-top:6px}
+.audit-meta a{color:var(--ink);text-underline-offset:4px;font-weight:700;text-decoration:underline}
+:root[aria-busy=true]{cursor:progress}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.18s;animation-timing-function:ease-out}
+@media (max-width:780px){footer:not(.legal-footer) .footer-social{grid-template-columns:repeat(2,minmax(0,1fr))}.audit-profiles{grid-template-columns:1fr}.audit-scores{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}}

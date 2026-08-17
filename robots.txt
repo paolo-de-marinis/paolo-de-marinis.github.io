@@ -11,6 +11,6 @@ User-agent: Googlebot
 Allow: /
 
 User-agent: Google-Extended
-Disallow: /
+Allow: /
 
 Sitemap: https://paolo-de-marinis.github.io/sitemap.xml

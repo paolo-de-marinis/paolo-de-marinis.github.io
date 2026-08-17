@@ -1,0 +1,114 @@
+name: Lighthouse audit
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - data/lighthouse.json
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lighthouse-live-audit
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SITE_URL: https://paolo-de-marinis.github.io/
+
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@v4
+
+      - name: Wait for the new GitHub Pages deployment
+        if: github.event_name == 'push'
+        run: sleep 45
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pinned Lighthouse
+        run: npm install --global lighthouse@13.0.1
+
+      - name: Audit the live mobile page
+        run: >-
+          lighthouse "$SITE_URL"
+          --output=json
+          --output-path=/tmp/lighthouse-mobile.json
+          --only-categories=performance,accessibility,best-practices,seo
+          --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage"
+          --quiet
+
+      - name: Audit the live desktop page
+        run: >-
+          lighthouse "$SITE_URL"
+          --preset=desktop
+          --output=json
+          --output-path=/tmp/lighthouse-desktop.json
+          --only-categories=performance,accessibility,best-practices,seo
+          --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage"
+          --quiet
+
+      - name: Build the public score data
+        run: |
+          jq -n \
+            --arg auditedAt "$(jq -r '.fetchTime' /tmp/lighthouse-mobile.json)" \
+            --arg commit "$GITHUB_SHA" \
+            --arg runUrl "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+            --slurpfile mobile /tmp/lighthouse-mobile.json \
+            --slurpfile desktop /tmp/lighthouse-desktop.json \
+            '
+              def scores($report): {
+                performance: (($report.categories.performance.score * 100) | round),
+                accessibility: (($report.categories.accessibility.score * 100) | round),
+                bestPractices: (($report.categories["best-practices"].score * 100) | round),
+                seo: (($report.categories.seo.score * 100) | round)
+              };
+              {
+                schemaVersion: 1,
+                status: "verified",
+                url: "https://paolo-de-marinis.github.io/",
+                auditedAt: $auditedAt,
+                commit: $commit,
+                runUrl: $runUrl,
+                lighthouseVersion: $mobile[0].lighthouseVersion,
+                profiles: {
+                  mobile: scores($mobile[0]),
+                  desktop: scores($desktop[0])
+                }
+              }
+            ' > data/lighthouse.json
+
+      - name: Publish updated scores
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/lighthouse.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "Update Lighthouse audit data"
+          git push
+
+      - name: Check minimum quality thresholds
+        run: |
+          jq -e '
+            .profiles.mobile.performance >= 85 and
+            .profiles.desktop.performance >= 85 and
+            .profiles.mobile.accessibility >= 90 and
+            .profiles.desktop.accessibility >= 90 and
+            .profiles.mobile.bestPractices >= 90 and
+            .profiles.desktop.bestPractices >= 90 and
+            .profiles.mobile.seo >= 90 and
+            .profiles.desktop.seo >= 90
+          ' data/lighthouse.json > /dev/null

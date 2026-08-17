@@ -2,7 +2,7 @@
 
 Static GitHub Pages deployment of Paolo De Marinis’s personal portfolio.
 
-The source repository is private. GitHub Pages publishes the site and linked documents publicly.
+The source repository, GitHub Pages site and linked documents are public. Personal and academic content remains subject to the separate content notice.
 
 ## Licensing
 

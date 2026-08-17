@@ -259,12 +259,60 @@
     });
   };
 
+  const initSectionNavigation = () => {
+    document.querySelectorAll('.site-nav a[href^="#"], .wordmark[href^="#"]').forEach((link) => {
+      link.addEventListener("click", (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        const target = document.getElementById(link.hash.slice(1));
+        if (!target) return;
+
+        event.preventDefault();
+        if (location.hash !== link.hash) {
+          history.pushState({
+            ...(history.state || {}),
+            languagePage: true,
+            scrollPosition: Math.max(0, target.offsetTop)
+          }, "", link.hash);
+        }
+        target.scrollIntoView({
+          behavior: reduceMotion.matches ? "auto" : "smooth",
+          block: "start"
+        });
+      });
+    });
+  };
+
+  const initLegalDialogs = () => {
+    const dialogs = [...document.querySelectorAll("dialog.legal-dialog")];
+    if (!dialogs.length) return;
+
+    document.querySelectorAll("[data-dialog-target]").forEach((trigger) => {
+      const dialog = document.getElementById(trigger.dataset.dialogTarget);
+      if (!(dialog instanceof HTMLDialogElement)) return;
+      trigger.addEventListener("click", () => {
+        dialog.showModal();
+        root.classList.add("modal-open");
+      });
+    });
+
+    dialogs.forEach((dialog) => {
+      dialog.querySelector("[data-dialog-close]")?.addEventListener("click", () => dialog.close());
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+      dialog.addEventListener("cancel", () => root.classList.remove("modal-open"));
+      dialog.addEventListener("close", () => root.classList.remove("modal-open"));
+    });
+  };
+
   const initPage = () => {
     root.classList.add("js");
     initTheme();
     initTimelines();
     initAudit();
     initLanguageSwitch();
+    initSectionNavigation();
+    initLegalDialogs();
   };
 
   addEventListener("popstate", (event) => {

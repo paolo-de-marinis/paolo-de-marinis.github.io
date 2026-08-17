@@ -2,6 +2,8 @@
 
 Static GitHub Pages deployment of Paolo De Marinis’s personal portfolio.
 
+English is the canonical default language at the site root. The Italian version is published under `/it/`; the corresponding information pages are `/information/` and `/it/informazioni/`. Legacy language URLs are retained only as redirect pages.
+
 The source repository, GitHub Pages site and linked documents are public. Personal and academic content remains subject to the separate content notice.
 
 ## Licensing

@@ -2,26 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://paolo-de-marinis.github.io/</loc>
-    <xhtml:link rel="alternate" hreflang="it-IT" href="https://paolo-de-marinis.github.io/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://paolo-de-marinis.github.io/en/" />
-    <lastmod>2026-08-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://paolo-de-marinis.github.io/" />
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://paolo-de-marinis.github.io/it/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://paolo-de-marinis.github.io/" />
+    <lastmod>2026-08-17</lastmod>
   </url>
   <url>
-    <loc>https://paolo-de-marinis.github.io/en/</loc>
-    <xhtml:link rel="alternate" hreflang="it-IT" href="https://paolo-de-marinis.github.io/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://paolo-de-marinis.github.io/en/" />
-    <lastmod>2026-08-16</lastmod>
+    <loc>https://paolo-de-marinis.github.io/it/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://paolo-de-marinis.github.io/" />
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://paolo-de-marinis.github.io/it/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://paolo-de-marinis.github.io/" />
+    <lastmod>2026-08-17</lastmod>
   </url>
   <url>
-    <loc>https://paolo-de-marinis.github.io/informazioni/</loc>
-    <xhtml:link rel="alternate" hreflang="it-IT" href="https://paolo-de-marinis.github.io/informazioni/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://paolo-de-marinis.github.io/en/information/" />
-    <lastmod>2026-08-16</lastmod>
+    <loc>https://paolo-de-marinis.github.io/information/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://paolo-de-marinis.github.io/information/" />
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://paolo-de-marinis.github.io/it/informazioni/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://paolo-de-marinis.github.io/information/" />
+    <lastmod>2026-08-17</lastmod>
   </url>
   <url>
-    <loc>https://paolo-de-marinis.github.io/en/information/</loc>
-    <xhtml:link rel="alternate" hreflang="it-IT" href="https://paolo-de-marinis.github.io/informazioni/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://paolo-de-marinis.github.io/en/information/" />
-    <lastmod>2026-08-16</lastmod>
+    <loc>https://paolo-de-marinis.github.io/it/informazioni/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://paolo-de-marinis.github.io/information/" />
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://paolo-de-marinis.github.io/it/informazioni/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://paolo-de-marinis.github.io/information/" />
+    <lastmod>2026-08-17</lastmod>
   </url>
 </urlset>

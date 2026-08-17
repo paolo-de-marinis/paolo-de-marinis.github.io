@@ -102,9 +102,10 @@
 <div class="case-grid">
 <div>
 <h3>Componente geospaziale 2D reversibile</h3>
-<p class="case-lead">Per la componente 2D ho proposto una rappresentazione 2D → 1D basata sulla curva di Hilbert che preserva la località spaziale. Aumentando l’ordine della curva, la griglia discreta diventa progressivamente più fitta, così l’errore di discretizzazione può essere ridotto sotto una tolleranza prefissata sulle coordinate e, se la griglia è sufficientemente fine, sotto la precisione effettiva della rappresentazione numerica in ingresso. Una volta mappati i punti sulla griglia, punti di Hilbert e indici 1D sono in corrispondenza biunivoca, quindi la codifica degli indici e l’inversione sono esatte.</p>
+<p class="case-lead">Dalle coordinate 2D a una rappresentazione 1D che preserva la località, con precisione controllabile.</p>
 </div>
 <div class="case-body">
+<p>Per la componente 2D ho proposto una rappresentazione 2D → 1D basata sulla curva di Hilbert. Aumentando l’ordine della curva, la griglia discreta diventa progressivamente più fitta, così l’errore di discretizzazione può essere ridotto sotto una tolleranza prefissata sulle coordinate e, se la griglia è sufficientemente fine, sotto la precisione effettiva della rappresentazione numerica in ingresso. Sulla griglia finita risultante, punti di Hilbert e indici 1D sono in corrispondenza biunivoca, quindi la codifica degli indici e l’inversione sono esatte.</p>
 <p>Ho poi contribuito alla progettazione e all’implementazione Python di questa componente di elaborazione delle coordinate, utilizzando la libreria <code>hilbertcurve</code> e il supporto mirato di ChatGPT per alcune funzioni circoscritte; ne ho verificato personalmente la reversibilità end-to-end.</p>
 <p>Ho proposto la codifica Huffman per i valori di luminosità e contribuito all’idea alla base della ricostruzione tramite triangolazione, senza implementare personalmente queste parti.</p>
 </div>

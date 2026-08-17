@@ -102,9 +102,10 @@
 <div class="case-grid">
 <div>
 <h3>Reversible 2D geospatial component</h3>
-<p class="case-lead">For the 2D component, I proposed a Hilbert-based 2D → 1D representation that preserves spatial locality. Increasing the Hilbert order makes the discrete grid progressively finer, so the discretization error can be reduced below a prescribed coordinate tolerance and, when sufficiently fine, below the effective precision of the input representation. Once points are mapped onto the grid, Hilbert points and their 1D indices are in one-to-one correspondence, so index encoding and inversion are exact.</p>
+<p class="case-lead">From 2D coordinates to a locality-preserving 1D representation with controllable precision.</p>
 </div>
 <div class="case-body">
+<p>For the 2D component, I proposed a Hilbert-based 2D → 1D representation. Increasing the Hilbert order makes the discrete grid progressively finer, so the discretization error can be reduced below a prescribed coordinate tolerance and, when sufficiently fine, below the effective precision of the input representation. On the resulting finite grid, Hilbert points and their 1D indices are in one-to-one correspondence, so index encoding and inversion are exact.</p>
 <p>I then contributed to the design and Python implementation of this coordinate-processing component, using the <code>hilbertcurve</code> library and targeted ChatGPT assistance for a limited set of functions; I personally verified its end-to-end reversibility.</p>
 <p>I proposed Huffman coding for brightness values and contributed to the idea behind the triangulation-based reconstruction, without implementing those parts myself.</p>
 </div>

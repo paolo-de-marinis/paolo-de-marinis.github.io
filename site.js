@@ -260,7 +260,7 @@
   };
 
   const initSectionNavigation = () => {
-    document.querySelectorAll('.site-nav a[href^="#"], .wordmark[href^="#"]').forEach((link) => {
+    document.querySelectorAll('.site-nav a[href^="#"], .wordmark[href^="#"], .mobile-project-nav a[href^="#"], .proof-index a[href^="#"]').forEach((link) => {
       link.addEventListener("click", (event) => {
         if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         const target = document.getElementById(link.hash.slice(1));

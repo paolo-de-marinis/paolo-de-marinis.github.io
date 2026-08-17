@@ -27,6 +27,8 @@ jobs:
     steps:
       - name: Check out the site
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Wait for the new GitHub Pages deployment
         if: github.event_name == 'push'
@@ -98,7 +100,16 @@ jobs:
             exit 0
           fi
           git commit -m "Update Lighthouse audit data"
-          git push
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Remote main advanced while the audit was running; rebasing before retry ${attempt}/3."
+            git fetch origin main
+            git rebase origin/main
+          done
+          echo "Unable to publish Lighthouse audit data after 3 attempts."
+          exit 1
 
       - name: Check minimum quality thresholds
         run: |

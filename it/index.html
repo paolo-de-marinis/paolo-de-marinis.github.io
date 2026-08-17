@@ -37,14 +37,14 @@
 <p class="eyebrow">Matematico · crittografia, dati e sistemi tecnici</p>
 <h1 id="hero-title">Paolo De Marinis.</h1>
 <p class="hero-lead">Parto dai primi principi. Poi costruisco e verifico.</p>
-<p class="hero-body">Sono un matematico: davanti a un problema ricostruisco oggetti, ipotesi e invarianti. Lo stesso metodo attraversa gli zk-STARK, una pipeline geospaziale basata sulle curve di Hilbert, i giochi in C per la piattaforma RIVES e la diagnosi ACPI.</p>
+<p class="hero-body">Sono un matematico: davanti a un problema ricostruisco oggetti, ipotesi e invarianti. Lo stesso metodo attraversa gli zk-STARK, un componente 2D reversibile di una pipeline di ricerca geospaziale basata sulle curve di Hilbert, i giochi in C per la piattaforma RIVES e la diagnosi ACPI.</p>
 <nav class="hero-links" aria-label="Contatti e profili">
 <a class="" href="https://github.com/paolo-de-marinis" target="_blank" rel="noopener noreferrer">GitHub<span aria-hidden="true"> ↗</span></a><a class="" href="https://www.linkedin.com/in/paolo-de-marinis-math/" target="_blank" rel="noopener noreferrer">LinkedIn<span aria-hidden="true"> ↗</span></a><a href="mailto:paolodemarinis1993@gmail.com">Email</a>
 </nav>
 <nav class="mobile-project-nav" aria-label="Lavori principali"><a href="#featured-thesis">zk-STARK</a><a href="#hilbert">Hilbert</a><a href="#omen">OMEN</a><a href="#rives">RIVES</a></nav>
 </div>
 <aside class="proof-index" aria-label="Quattro applicazioni dello stesso metodo"><p class="card-kicker">Un metodo, quattro applicazioni</p>
-<a href="#featured-thesis"><span>01 · dare struttura</span><strong>zk-STARK</strong><small>Quadro unitario · due preordini</small></a><a href="#hilbert"><span>02 · modellare</span><strong>Hilbert</strong><small>Geospaziale · Hilbert → delta</small></a><a href="#omen"><span>03 · diagnosticare</span><strong>Linux / ACPI</strong><small>Sintomo → causa → test</small></a><a href="#rives"><span>04 · dare forma</span><strong>RIVES · giochi in C</strong><small>Matematica → gioco</small></a></aside></section><section id="lavori" class="section work-section"><p class="section-index work-index">01 / Lavori</p>
+<a href="#featured-thesis"><span>01 · dare struttura</span><strong>zk-STARK</strong><small>Quadro unitario · due preordini</small></a><a href="#hilbert"><span>02 · modellare</span><strong>Hilbert</strong><small>Geospaziale 2D · Hilbert → delta</small></a><a href="#omen"><span>03 · diagnosticare</span><strong>Linux / ACPI</strong><small>Sintomo → causa → test</small></a><a href="#rives"><span>04 · dare forma</span><strong>RIVES · giochi in C</strong><small>Matematica → gioco</small></a></aside></section><section id="lavori" class="section work-section"><p class="section-index work-index">01 / Lavori</p>
 <article id="featured-thesis" class="featured-thesis" aria-labelledby="featured-thesis-title"><div class="case-header featured-thesis-header">
 <p class="project-type">Lavoro principale · tesi magistrale · 2025</p>
 <span class="case-number">Caso 01</span>
@@ -101,12 +101,12 @@
 </div>
 <div class="case-grid">
 <div>
-<h3>Pipeline geospaziale reversibile</h3>
-<p class="case-lead">Sono partito dalla località spaziale: prima la mappa matematica, poi la codifica, infine la verifica di reversibilità.</p>
+<h3>Componente geospaziale 2D reversibile</h3>
+<p class="case-lead">Per la componente 2D ho proposto una rappresentazione 2D → 1D basata sulla curva di Hilbert che preserva la località spaziale. Aumentando l’ordine della curva, la griglia discreta diventa progressivamente più fitta, così l’errore di discretizzazione può essere ridotto sotto una tolleranza prefissata sulle coordinate e, se la griglia è sufficientemente fine, sotto la precisione effettiva della rappresentazione numerica in ingresso. Una volta mappati i punti sulla griglia, punti di Hilbert e indici 1D sono in corrispondenza biunivoca, quindi la codifica degli indici e l’inversione sono esatte.</p>
 </div>
 <div class="case-body">
-<p>Ho contribuito alla progettazione e all’implementazione Python della pipeline, utilizzando la libreria <code>hilbertcurve</code> e il supporto mirato di ChatGPT per alcune funzioni circoscritte; ho verificato personalmente la reversibilità end-to-end.</p>
-<p>Ho proposto Huffman per i valori di luminosità e contribuito all’idea della ricostruzione tramite triangolazione, senza occuparmi della relativa implementazione.</p>
+<p>Ho poi contribuito alla progettazione e all’implementazione Python di questa componente di elaborazione delle coordinate, utilizzando la libreria <code>hilbertcurve</code> e il supporto mirato di ChatGPT per alcune funzioni circoscritte; ne ho verificato personalmente la reversibilità end-to-end.</p>
+<p>Ho proposto la codifica Huffman per i valori di luminosità e contribuito all’idea alla base della ricostruzione tramite triangolazione, senza implementare personalmente queste parti.</p>
 </div>
 </div>
 <ol class="pipeline">
@@ -268,9 +268,9 @@
 <h3>Matematica e progetti convergono</h3>
 </div>
 </div>
-<p class="timeline-panel-description">Con il trasferimento all’Insubria ho riportato la matematica al centro. La pipeline geospaziale del 2023, le RIVES cartridges del 2024 e la tesi zk-STARK del 2025 applicano lo stesso metodo: partire dalla struttura, tradurla e verificare il risultato.</p>
+<p class="timeline-panel-description">Con il trasferimento all’Insubria ho riportato la matematica al centro. Il mio contributo del 2023 alla componente 2D di una pipeline geospaziale, le RIVES cartridges del 2024 e la tesi zk-STARK del 2025 applicano lo stesso metodo: partire dalla struttura, tradurla e verificare il risultato.</p>
 <div class="phase-highlights">
-<a class="phase-highlight" data-lane="project" href="https://doi.org/10.1002/nme.70064" target="_blank" rel="noopener noreferrer"><span>2023 · contributo algoritmico</span><strong>Pipeline Hilbert + delta encoding</strong><small>Ho contribuito a progettare e implementare la pipeline reversibile e ne ho verificato personalmente il round trip su dati Earth Observation. Il contributo è riconosciuto nell’articolo del 2025.</small><b aria-hidden="true">Apri l’articolo · DOI ↗</b></a><a class="phase-highlight" data-lane="project" href="https://app.rives.io/profile/0x2e092f91bc25ebd12b8b0e4df87d9d0424d6460c" target="_blank" rel="noopener noreferrer"><span>2024 · produzione originale · RIVES Jam</span><strong>Bomb Flip + Slither Slide</strong><small>Ho ideato e sviluppato prima Bomb Flip e poi Slither Slide, pubblicandoli come cartridge su RIVES. Slither Slide si è classificato 2º su 7 a RIVES Jam #3. I repository GitHub attuali non esistevano ancora.</small><b aria-hidden="true">Apri il profilo RIVES ↗</b></a><a class="phase-highlight" data-lane="study" data-emphasis="primary" href="/documents/paolo-de-marinis-msc-thesis-zkstarks.pdf" target="_blank" rel="noopener noreferrer"><span>2025 · tesi magistrale · zk-STARK</span><strong>Tesi sugli zk-STARK</strong><small>Ricostruzione teorica in larga parte autosufficiente: dalla derivazione FSM → Computational Integrity → AIR a una definizione generale di AIR, due preordini per le ottimizzazioni e il percorso FFT → Reed–Solomon → DEEP/FRI.</small><b aria-hidden="true">Apri la tesi · PDF ↗</b></a>
+<a class="phase-highlight" data-lane="project" href="https://doi.org/10.1002/nme.70064" target="_blank" rel="noopener noreferrer"><span>2023 · contributo algoritmico</span><strong>Componente 2D Hilbert + delta</strong><small>Ho proposto la rappresentazione Hilbert 2D → 1D per la componente di elaborazione delle coordinate: aumentando l’ordine della curva la griglia si raffina finché la discretizzazione scende sotto una tolleranza prefissata, mentre punti della griglia e indici 1D restano in corrispondenza biunivoca. Ho contribuito alla sua progettazione e implementazione e verificato personalmente il round trip su dati Earth Observation. Il contributo è riconosciuto nell’articolo del 2025.</small><b aria-hidden="true">Apri l’articolo · DOI ↗</b></a><a class="phase-highlight" data-lane="project" href="https://app.rives.io/profile/0x2e092f91bc25ebd12b8b0e4df87d9d0424d6460c" target="_blank" rel="noopener noreferrer"><span>2024 · produzione originale · RIVES Jam</span><strong>Bomb Flip + Slither Slide</strong><small>Ho ideato e sviluppato prima Bomb Flip e poi Slither Slide, pubblicandoli come cartridge su RIVES. Slither Slide si è classificato 2º su 7 a RIVES Jam #3. I repository GitHub attuali non esistevano ancora.</small><b aria-hidden="true">Apri il profilo RIVES ↗</b></a><a class="phase-highlight" data-lane="study" data-emphasis="primary" href="/documents/paolo-de-marinis-msc-thesis-zkstarks.pdf" target="_blank" rel="noopener noreferrer"><span>2025 · tesi magistrale · zk-STARK</span><strong>Tesi sugli zk-STARK</strong><small>Ricostruzione teorica in larga parte autosufficiente: dalla derivazione FSM → Computational Integrity → AIR a una definizione generale di AIR, due preordini per le ottimizzazioni e il percorso FFT → Reed–Solomon → DEEP/FRI.</small><b aria-hidden="true">Apri la tesi · PDF ↗</b></a>
 </div>
 </div></article><article class="timeline-scroll-step" id="fase-specializzazione" aria-label="2026 — oggi: Specializzazione autonoma"><p class="timeline-active-period">2026 — oggi</p>
 <div>
@@ -292,7 +292,7 @@
 <p class="section-index">03 / Metodo</p>
 <h2>Prima la struttura del problema. Poi la soluzione.</h2>
 </div>
-<p>Non parto dallo strumento disponibile. Ricostruisco il problema, confronto le alternative e scelgo cosa implementare solo quando sono chiari vincoli, criteri di correttezza e limiti.</p>
+<p>Non parto dallo strumento disponibile. Ricostruisco il problema, confronto le alternative e scelgo cosa implementare solo quando sono chiari vincoli, criteri di correttezza e limiti. Quando è utile, strutturo workflow tecnici assistiti da IA secondo lo stesso metodo: scompongo i task, definisco vincoli e criteri di accettazione, coordino strumenti o agenti, revisiono i risultati, verifico le regressioni e mantengo la responsabilità della validazione finale.</p>
 </div>
 <ol class="method-flow">
 <li>
@@ -357,6 +357,6 @@
 <p>Paolo De Marinis · Matematica e progetti tecnici</p>
 <nav class="footer-legal" aria-label="Informazioni legali"><a href="/it/informazioni/#privacy">Privacy e cookie</a><a href="/it/informazioni/#accessibility">Accessibilità</a><a href="/it/informazioni/#licenze">© 2026 · Copyright e licenze</a></nav>
 </div>
-<p>Aggiornato il 16 agosto 2026</p></footer><script src="/site.js" defer></script>
+<p>Aggiornato il 17 agosto 2026</p></footer><script src="/site.js" defer></script>
 </body>
 </html>

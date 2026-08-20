@@ -33,10 +33,6 @@ jobs:
       - name: Validate SEO files
         run: python3 scripts/validate-seo.py
 
-      - name: Wait for the new GitHub Pages deployment
-        if: github.event_name == 'push'
-        run: sleep 45
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -65,7 +61,19 @@ jobs:
           --quiet
 
       - name: Validate the deployed SEO files
-        run: python3 scripts/validate-seo.py --live
+        run: |
+          for attempt in 1 2 3 4 5 6; do
+            if python3 scripts/validate-seo.py --live; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 6 ]; then
+              delay=$((attempt * 15))
+              echo "Live SEO validation not ready; retrying in ${delay}s (${attempt}/6)."
+              sleep "$delay"
+            fi
+          done
+          echo "Live SEO validation failed after 6 attempts."
+          exit 1
 
       - name: Build the public score data
         run: |
@@ -95,10 +103,24 @@ jobs:
                   desktop: scores($desktop[0])
                 }
               }
-            ' > data/lighthouse.json
+            ' > /tmp/lighthouse-public.json
+
+      - name: Check minimum quality thresholds
+        run: |
+          jq -e '
+            .profiles.mobile.performance >= 85 and
+            .profiles.desktop.performance >= 85 and
+            .profiles.mobile.accessibility >= 90 and
+            .profiles.desktop.accessibility >= 90 and
+            .profiles.mobile.bestPractices >= 90 and
+            .profiles.desktop.bestPractices >= 90 and
+            .profiles.mobile.seo >= 90 and
+            .profiles.desktop.seo >= 90
+          ' /tmp/lighthouse-public.json > /dev/null
 
       - name: Publish updated scores
         run: |
+          cp /tmp/lighthouse-public.json data/lighthouse.json
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/lighthouse.json
@@ -116,16 +138,3 @@ jobs:
           done
           echo "Unable to publish Lighthouse audit data after 3 attempts."
           exit 1
-
-      - name: Check minimum quality thresholds
-        run: |
-          jq -e '
-            .profiles.mobile.performance >= 85 and
-            .profiles.desktop.performance >= 85 and
-            .profiles.mobile.accessibility >= 90 and
-            .profiles.desktop.accessibility >= 90 and
-            .profiles.mobile.bestPractices >= 90 and
-            .profiles.desktop.bestPractices >= 90 and
-            .profiles.mobile.seo >= 90 and
-            .profiles.desktop.seo >= 90
-          ' data/lighthouse.json > /dev/null

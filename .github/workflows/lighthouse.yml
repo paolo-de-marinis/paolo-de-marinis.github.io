@@ -30,6 +30,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Validate SEO files
+        run: python3 scripts/validate-seo.py
+
       - name: Wait for the new GitHub Pages deployment
         if: github.event_name == 'push'
         run: sleep 45
@@ -60,6 +63,9 @@ jobs:
           --only-categories=performance,accessibility,best-practices,seo
           --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage"
           --quiet
+
+      - name: Validate the deployed SEO files
+        run: python3 scripts/validate-seo.py --live
 
       - name: Build the public score data
         run: |

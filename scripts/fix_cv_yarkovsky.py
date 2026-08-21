@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+# One-off trigger: this script edits only the three PDFs checked out from GitHub.
 from pathlib import Path
 import io
 import sys

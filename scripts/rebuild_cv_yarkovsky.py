@@ -49,33 +49,6 @@ def target_style(page: fitz.Page, target: fitz.Rect):
     return candidates[0][1]
 
 
-def embedded_font_bytes(doc: fitz.Document, page: fitz.Page, span_font: str) -> bytes | None:
-    needle = span_font.replace(" ", "").lower().split("+")[-1]
-    ranked = []
-    for font in page.get_fonts(full=True):
-        xref, ext, ftype, basefont, resource, encoding, *rest = font
-        names = [str(basefont), str(resource)]
-        score = 0
-        for name in names:
-            normalized = name.replace(" ", "").lower().split("+")[-1]
-            if normalized == needle:
-                score = max(score, 3)
-            elif needle in normalized or normalized in needle:
-                score = max(score, 2)
-        if score:
-            ranked.append((score, xref, basefont, resource))
-    ranked.sort(reverse=True)
-    for _, xref, basefont, resource in ranked:
-        try:
-            _basename, _ext, _type, content = doc.extract_font(xref)
-        except Exception:
-            continue
-        if content:
-            print(f"  font match: span={span_font!r}, embedded={basefont!r}/{resource!r}, xref={xref}")
-            return content
-    return None
-
-
 def changed_bbox(before: Image.Image, after: Image.Image):
     return ImageChops.difference(before, after).getbbox()
 
@@ -108,31 +81,31 @@ def edit_one(path: Path) -> None:
     font_size = float(style["size"])
     color = rgb_from_int(int(style.get("color", 0)))
     origin = fitz.Point(target.x0, float(style.get("origin", (target.x0, target.y1))[1]))
-    span_font = str(style.get("font", "Helvetica"))
-    font_bytes = embedded_font_bytes(before_doc, before_doc[page_index], span_font)
+    span_font = str(style.get("font", ""))
     before_doc.close()
+
+    if "NimbusSan" not in span_font and "Helvetica" not in span_font:
+        raise RuntimeError(f"{path}: unexpected body font {span_font!r}; refusing a non-equivalent replacement")
 
     doc = fitz.open(stream=original_bytes, filetype="pdf")
     page = doc[page_index]
-
-    if font_bytes:
-        fontname = "CvBodyFont"
-        page.insert_font(fontname=fontname, fontbuffer=font_bytes)
-        measure_font = fitz.Font(fontbuffer=font_bytes)
-    else:
-        fontname = "helv"
-        measure_font = fitz.Font("helv")
-        print(f"  warning: embedded font for {span_font!r} not extractable; using Helvetica")
+    measure_font = fitz.Font("helv")
+    fontname = "helv"
 
     new_width = measure_font.text_length(NEW, fontsize=font_size)
     old_width = target.width
     right_limit = page.rect.x1 - 28.0
+    print(
+        f"{path}: page={page_index + 1}, target={target}, source_font={span_font!r}, "
+        f"size={font_size:.2f}, origin=({origin.x:.2f},{origin.y:.2f}), "
+        f"old_width={old_width:.2f}, proposed_width={new_width:.2f}, right_limit={right_limit:.2f}"
+    )
+
     if origin.x + new_width > right_limit:
         fitted = font_size * (right_limit - origin.x) / new_width
         if fitted < font_size * 0.88:
             raise RuntimeError(
-                f"{path}: replacement needs excessive shrinking: {font_size:.2f} -> {fitted:.2f} pt; "
-                f"target={target}, right_limit={right_limit:.2f}"
+                f"{path}: replacement needs excessive shrinking: {font_size:.2f} -> {fitted:.2f} pt"
             )
         print(f"  fitting replacement: {font_size:.2f} -> {fitted:.2f} pt")
         font_size = fitted
@@ -193,8 +166,8 @@ def edit_one(path: Path) -> None:
 
     path.write_bytes(new_bytes)
     print(
-        f"OK {path}: page={page_index + 1}, target={target}, font={span_font!r}, "
-        f"size={font_size:.2f}, old_width={old_width:.2f}, new_width={new_width:.2f}, diff={diff_bbox}"
+        f"OK {path}: page={page_index + 1}, final_size={font_size:.2f}, "
+        f"new_width={new_width:.2f}, diff={diff_bbox}"
     )
 
 

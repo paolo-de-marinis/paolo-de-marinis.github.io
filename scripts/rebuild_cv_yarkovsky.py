@@ -118,7 +118,7 @@ def edit_one(path: Path) -> None:
     erase = fitz.Rect(
         target.x0 - 0.6,
         target.y0 - 0.8,
-        min(page.rect.x1 - 1, max(target.x1 + 0.6, origin.x + new_width + 0.8)),
+        target.x1 + 0.6,
         target.y1 + 0.8,
     )
     page.add_redact_annot(erase, fill=(1, 1, 1))

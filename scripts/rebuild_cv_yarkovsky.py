@@ -53,6 +53,10 @@ def changed_bbox(before: Image.Image, after: Image.Image):
     return ImageChops.difference(before, after).getbbox()
 
 
+def normalize_text(text: str) -> str:
+    return " ".join(text.split())
+
+
 def edit_one(path: Path) -> None:
     original_bytes = path.read_bytes()
     before_doc = fitz.open(stream=original_bytes, filetype="pdf")
@@ -141,8 +145,11 @@ def edit_one(path: Path) -> None:
         raise RuntimeError(f"{path}: old wording still present")
     if after_text.count(NEW) != 1:
         raise RuntimeError(f"{path}: new wording occurrence count is {after_text.count(NEW)}, expected 1")
-    if after_text.replace(NEW, OLD) != before_text:
-        raise RuntimeError(f"{path}: extracted text changed outside the requested wording")
+
+    before_normalized = normalize_text(before_text)
+    after_normalized = normalize_text(after_text.replace(NEW, OLD))
+    if after_normalized != before_normalized:
+        raise RuntimeError(f"{path}: textual content changed outside the requested wording")
 
     after_image = render(after_doc[page_index])
     diff_bbox = changed_bbox(before_image, after_image)

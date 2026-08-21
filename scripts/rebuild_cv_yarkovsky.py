@@ -53,8 +53,14 @@ def changed_bbox(before: Image.Image, after: Image.Image):
     return ImageChops.difference(before, after).getbbox()
 
 
-def normalize_text(text: str) -> str:
-    return " ".join(text.split())
+def words_intersecting(page: fitz.Page, rect: fitz.Rect) -> str:
+    words = []
+    for word in page.get_text("words"):
+        wrect = fitz.Rect(word[:4])
+        if intersect_area(wrect, rect) > 0:
+            words.append((round(float(word[1]), 2), float(word[0]), str(word[4])))
+    words.sort(key=lambda item: (item[0], item[1]))
+    return " ".join(item[2] for item in words)
 
 
 def edit_one(path: Path) -> None:
@@ -62,13 +68,13 @@ def edit_one(path: Path) -> None:
     before_doc = fitz.open(stream=original_bytes, filetype="pdf")
     before_text = "\n".join(p.get_text("text") for p in before_doc)
     before_pages = before_doc.page_count
+    before_images = [render(p) for p in before_doc]
     if before_text.count(OLD) != 1:
         raise RuntimeError(f"{path}: expected exactly one {OLD!r}; found {before_text.count(OLD)}")
 
     page_index = None
     target = None
     style = None
-    before_image = None
     for page in before_doc:
         rects = page.search_for(OLD)
         if rects:
@@ -77,19 +83,29 @@ def edit_one(path: Path) -> None:
             page_index = page.number
             target = rects[0]
             style = target_style(page, target)
-            before_image = render(page)
             break
-    if page_index is None or target is None or style is None or before_image is None:
+    if page_index is None or target is None or style is None:
         raise RuntimeError(f"{path}: target phrase was not located")
 
     font_size = float(style["size"])
     color = rgb_from_int(int(style.get("color", 0)))
     origin = fitz.Point(target.x0, float(style.get("origin", (target.x0, target.y1))[1]))
     span_font = str(style.get("font", ""))
-    before_doc.close()
-
     if "NimbusSan" not in span_font and "Helvetica" not in span_font:
         raise RuntimeError(f"{path}: unexpected body font {span_font!r}; refusing a non-equivalent replacement")
+
+    erase = fitz.Rect(
+        target.x0 - 0.6,
+        target.y0 - 0.8,
+        target.x1 + 0.6,
+        target.y1 + 0.8,
+    )
+    erased_words = words_intersecting(before_doc[page_index], erase)
+    if erased_words != OLD:
+        raise RuntimeError(
+            f"{path}: erase rectangle contains text other than the target phrase: {erased_words!r}"
+        )
+    before_doc.close()
 
     doc = fitz.open(stream=original_bytes, filetype="pdf")
     page = doc[page_index]
@@ -115,12 +131,6 @@ def edit_one(path: Path) -> None:
         font_size = fitted
         new_width = measure_font.text_length(NEW, fontsize=font_size)
 
-    erase = fitz.Rect(
-        target.x0 - 0.6,
-        target.y0 - 0.8,
-        target.x1 + 0.6,
-        target.y1 + 0.8,
-    )
     page.add_redact_annot(erase, fill=(1, 1, 1))
     page.apply_redactions()
     page.insert_text(
@@ -145,36 +155,40 @@ def edit_one(path: Path) -> None:
         raise RuntimeError(f"{path}: old wording still present")
     if after_text.count(NEW) != 1:
         raise RuntimeError(f"{path}: new wording occurrence count is {after_text.count(NEW)}, expected 1")
-
-    before_normalized = normalize_text(before_text)
-    after_normalized = normalize_text(after_text.replace(NEW, OLD))
-    if after_normalized != before_normalized:
-        raise RuntimeError(f"{path}: textual content changed outside the requested wording")
-
-    after_image = render(after_doc[page_index])
-    diff_bbox = changed_bbox(before_image, after_image)
-    if diff_bbox is None:
-        raise RuntimeError(f"{path}: no visual change detected")
+    if len(after_doc[page_index].search_for(NEW)) != 1:
+        raise RuntimeError(f"{path}: new phrase is not searchable exactly once on the edited page")
 
     expected = (
         max(0, int((target.x0 - 4) * ZOOM)),
         max(0, int((target.y0 - 4) * ZOOM)),
-        min(after_image.width, int((origin.x + new_width + 4) * ZOOM)),
-        min(after_image.height, int((target.y1 + 4) * ZOOM)),
+        min(before_images[page_index].width, int((origin.x + new_width + 4) * ZOOM)),
+        min(before_images[page_index].height, int((target.y1 + 4) * ZOOM)),
     )
-    if not (
-        diff_bbox[0] >= expected[0]
-        and diff_bbox[1] >= expected[1]
-        and diff_bbox[2] <= expected[2]
-        and diff_bbox[3] <= expected[3]
-    ):
-        raise RuntimeError(f"{path}: visual diff escaped target region: diff={diff_bbox}, expected={expected}")
+
+    target_diff = None
+    for idx, before_image in enumerate(before_images):
+        after_image = render(after_doc[idx])
+        diff_bbox = changed_bbox(before_image, after_image)
+        if idx != page_index:
+            if diff_bbox is not None:
+                raise RuntimeError(f"{path}: unexpected visual change on page {idx + 1}: {diff_bbox}")
+            continue
+        target_diff = diff_bbox
+        if diff_bbox is None:
+            raise RuntimeError(f"{path}: no visual change detected on target page")
+        if not (
+            diff_bbox[0] >= expected[0]
+            and diff_bbox[1] >= expected[1]
+            and diff_bbox[2] <= expected[2]
+            and diff_bbox[3] <= expected[3]
+        ):
+            raise RuntimeError(f"{path}: visual diff escaped target region: diff={diff_bbox}, expected={expected}")
     after_doc.close()
 
     path.write_bytes(new_bytes)
     print(
         f"OK {path}: page={page_index + 1}, final_size={font_size:.2f}, "
-        f"new_width={new_width:.2f}, diff={diff_bbox}"
+        f"new_width={new_width:.2f}, diff={target_diff}"
     )
 
 

@@ -3,7 +3,7 @@ name: One-off CV Yarkovsky wording fix
 on:
   push:
     branches:
-      - fix/cv-yarkovsky-exam-20260821
+      - main
 
 permissions:
   contents: write
@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Check out branch
+      - name: Check out main
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -28,7 +28,7 @@ jobs:
       - name: Install PDF tooling
         run: python -m pip install --disable-pip-version-check PyMuPDF==1.26.4 Pillow==11.3.0
 
-      - name: Edit and validate the three CV PDFs
+      - name: Edit and validate the three GitHub CV PDFs
         run: python scripts/fix_cv_yarkovsky.py
 
       - name: Commit only the three CV PDFs
@@ -44,4 +44,4 @@ jobs:
             exit 1
           fi
           git commit -m "Clarify Yarkovsky exam context in CVs"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          git push origin HEAD:main

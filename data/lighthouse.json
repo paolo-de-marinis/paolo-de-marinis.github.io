@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "status": "verified",
   "url": "https://paolo-de-marinis.github.io/",
-  "auditedAt": "2026-09-28T11:45:55.655Z",
-  "commit": "023ead0d0b38e031efd582b050fc632c3c6c8acb",
-  "runUrl": "https://github.com/paolo-de-marinis/paolo-de-marinis.github.io/actions/runs/36417559069",
+  "auditedAt": "2026-10-05T12:20:53.491Z",
+  "commit": "245bbba165bcc6b8b1f3e4e2f1f6f1d343b03323",
+  "runUrl": "https://github.com/paolo-de-marinis/paolo-de-marinis.github.io/actions/runs/37308845996",
   "lighthouseVersion": "13.0.1",
   "profiles": {
     "mobile": {
-      "performance": 96,
+      "performance": 100,
       "accessibility": 100,
       "bestPractices": 100,
       "seo": 100
